@@ -19,6 +19,11 @@ jobs:
           java-version: "21"
           distribution: "temurin"
 
+      - name: Check Gradle Daemon Status
+        run: |
+          echo "=== Gradle Daemon 상태 확인 ==="
+          ./gradlew --status
+
       - name: Download dependencies (Benchmark)
         run: |
           echo "=== 의존성 다운로드 시작 ==="
