@@ -1,0 +1,31 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;
+    driver-class-name: org.h2.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test-client-id
+            client-secret: test-client-secret
+  session:
+    timeout: 0
+
+exception:
+  log-only-aegis-stack-trace: false
+
+email-restriction:
+  enabled: true
+
+internal-api-key:
+  tx-track-api: test-api-key
+
+discord:
+  token: test-discord-token
+  guild-id: test-guild-id
+  alarm-channel-id: test-alarm-channel-id
+  complete-role-id: test-complete-role-id
