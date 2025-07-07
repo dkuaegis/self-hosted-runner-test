@@ -1,4 +1,4 @@
-name: Build Spring Boot Application - GitHub Hosted Runner
+name: Build Spring Boot Application - Self Hosted Runner
 
 on:
   push:
@@ -19,5 +19,32 @@ jobs:
           java-version: "21"
           distribution: "temurin"
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Download dependencies (Benchmark)
+        run: |
+          echo "=== 의존성 다운로드 시작 ==="
+          start_time=$(date +%s)
+          ./gradlew dependencies --refresh-dependencies
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+          echo "=== 의존성 다운로드 완료 ==="
+          echo "⏱️ 의존성 다운로드 시간: ${duration}초"
+
+      - name: Clean build (Benchmark)
+        run: |
+          echo "=== 클린 빌드 시작 ==="
+          start_time=$(date +%s)
+          ./gradlew clean build -x test --no-daemon
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+          echo "=== 클린 빌드 완료 ==="
+          echo "⏱️ 클린 빌드 시간: ${duration}초"
+
+      - name: Run tests (Benchmark)
+        run: |
+          echo "=== 테스트 실행 시작 ==="
+          start_time=$(date +%s)
+          ./gradlew test --no-daemon
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+          echo "=== 테스트 실행 완료 ==="
+          echo "⏱️ 테스트 실행 시간: ${duration}초"
